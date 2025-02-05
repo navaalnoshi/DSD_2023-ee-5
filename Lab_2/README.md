@@ -10,7 +10,7 @@
 -Docs: Design on DrawIO
 
 ***Objectives***
--Design and simulate digital circuits using Systemverilog.
+-Design and simulate digital circuits using SystemVerilog.
 -Use a constraint file for proper pin assignments in FPGA implementation.
 -Using FPGA to make truthtable.
 -Identifying the LUTs and IOs from report.
@@ -18,7 +18,7 @@
 
 ***How to use***
 **For Simulation:**
--Open the Systemverilog design file and constraints file also.
+-Open the SystemVerilog design file and constraints file also.
 -Compile the design.
 -Verify that the circuit is according to requirements.
 -Click on Run synthesis and then Implementation.
