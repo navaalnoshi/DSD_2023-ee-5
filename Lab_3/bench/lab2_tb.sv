@@ -36,6 +36,6 @@ localparam period = 10;
         end
     initial
         begin
-           $monitor("a=%b, b=%b, c=%b, x=%b, y=%b", a,b,c,x,y);
+          $monitor("a=%b, b=%b, c=%b, x=%b, y=%b", ae,be,ce,xe,ye);
         end
 endmodule
