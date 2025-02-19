@@ -1,34 +1,17 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 02/18/2025 09:37:21 AM
-// Design Name: 
-// Module Name: Lab_4
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+
 
 module Lab_4(
-    input logic [1:0] a,
-    input logic [1:0] b,
-    output logic red, 
-    output logic green, 
-    output logic blue
-);
-
-    assign red = ((a[0]) & (a[1])) | ((a[1]) & (~b[1])) | ((a[1]) & (~b[0])) | ((~b[0]) & (~b[1])) | ((a[0]) & (~b[1]));
-    assign green = ((~a[0]) & (~a[1])) | ((~a[0]) & (b[1])) | ((b[1]) & (~a[1])) | ((b[0]) & (~a[1])) | ((b[1]) & (b[0]));
-    assign blue = ((a[0]) & (~b[0])) | ((a[1]) & (~b[1])) | ((a[0]) & (b[0])) | ((a[1]) & (~b[0]));
-
+     input logic a1,                                                             
+     input logic a0,                                                             
+     input logic b1,                                                             
+     input logic b0,                                                             
+     output logic r,                                                             
+     output logic b,                                                             
+     output logic g                                                              
+);                                                                              
+                                                                            
+    assign r= (a1 & a0) | (a1 & ~b1) | (a1 & ~b0) | (~b1 & ~b0) | (~b1 & a0) ;  
+    assign g= (~a1 & ~a0 ) |(~a0 & b1)| (~a1 & b1)| (~a1 & b0) | (b1 & b0)  ;   
+    assign b= (a0 & ~b0) | (a1 & ~b1) | (~a0 & b0) | (~a1 & b1);      
+    
 endmodule
