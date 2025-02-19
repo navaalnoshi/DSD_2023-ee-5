@@ -7,9 +7,9 @@ module Lab_4_tb;
         .a0(a0),
         .b1(b1),
         .b0(b0),
-        .red(r),
-        .green(g),
-        .blue(b)
+        .r(r),
+        .g(g),
+        .b(b)
     );
 
     localparam period = 10; // Time period for delay
