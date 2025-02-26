@@ -1,4 +1,4 @@
-**README for Lab 4 - Digital System Design (DSD) 2023**  
+ Lab 4 - Digital System Design (DSD) 2023**  
 **Combinational Circuit Design: RGB LED Using K-Maps**  
 
 **Prerequisite**:  
