@@ -17,8 +17,8 @@ module elevator(
 
 logic enable_20s, enable_1s;
 logic [2:0] floor_to_go;
-parameter COUNT_20S = 2_000_000_000;
-parameter COUNT_1S  = 100_000_000;
+parameter COUNT_20S = 100;
+parameter COUNT_1S  = 1;
 logic [30:0] counter;
 logic [26:0] counter_1;
 logic counting, counting_1;
@@ -78,11 +78,7 @@ always_ff @(posedge clk or posedge reset) begin
 end
 
 always_comb begin
-    max_req = 0;
-    min_req = 7;
-    nearest_floor = current_floor;
-    up = 0;
-    down = 0;
+
 
     // Find max_req (highest floor with call_up)
     if (call_up[7]) max_req = 7;
@@ -105,10 +101,10 @@ always_comb begin
     else if (call_down[7]) min_req = 7;
 
     // Determine direction
-    if (max_req > current_floor)
-        up = 1;
+    if (max_req == current_floor)
+        up = 0;
     else if (min_req < current_floor)
-        down = 1;
+        down = 0;
 
     // Find nearest_floor based on direction
     if (up) begin
@@ -175,12 +171,30 @@ always_comb begin
     g = 0;
     b = 0;
 
+    if (reset) begin
+     max_req = 0;
+     min_req = 7;
+     nearest_floor = current_floor;
+     up = 0;
+     down = 0;
+     floor_increment = 0;
+     floor_decrement = 0;
+     nearest_floor_enable = 0;
+     one_up_req_completed = 0;
+     one_down_req_completed = 0;
+     r = 0;
+     g = 0;
+     b = 0;
+    end
+
+
     case (current_state)
         RESET: begin
             next_state = IDLE;
         end
 
         IDLE: begin
+            nearest_floor_enable=1;
             g = 1;
             if (emergency) begin
                 next_state = EMERGENCY;
