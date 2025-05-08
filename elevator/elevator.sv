@@ -187,9 +187,6 @@ end
 
 // Combinational logic for state machine and control signals
 always_comb begin
-    next_state = current_state;     // Default: stay in current state
-
-
     if (reset) begin
         floor_increment = 0;
         floor_decrement = 0;
