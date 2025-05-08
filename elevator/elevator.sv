@@ -186,25 +186,18 @@ end
 // Combinational logic for state machine and control signals
 always_comb begin
     next_state = current_state;     // Default: stay in current state
-    floor_increment = 0;            // Default: no floor increment
-    floor_decrement = 0;            // Default: no floor decrement
-    nearest_floor_enable = 0;       // Default: disable nearest floor update
-    one_up_req_completed = 0;       // Default: no up request completed
-    one_down_req_completed = 0;     // Default: no down request completed
-    r = 0;                          // Default: red LED off
-    g = 0;                          // Default: green LED off
-    b = 0;    
-    ma = 0;// Default: blue LED off
+
 
     if (reset) begin
         floor_increment = 0;
         floor_decrement = 0;
-        nearest_floor_enable = 0;
+        nearest_floor_enable = 1;
         one_up_req_completed = 0;
         one_down_req_completed = 0;
         r = 0;
         g = 0;
         b = 0;
+        ma = 0;
     end
 
     case (current_state)
@@ -213,6 +206,7 @@ always_comb begin
         end
 
         IDLE: begin
+            ma = 0;
             nearest_floor_enable = 1; // Enable nearest floor calculation
             g = 1;                    // Green LED on to indicate idle
             if (emergency) begin
@@ -276,7 +270,7 @@ always_comb begin
         end
 
         DOOR_CLOSE: begin
-            ma = 0;
+            ma = 1;
             r = 1;                    // Red LED on to indicate door closing
             b = 1;                    // Blue LED on to indicate door closing
             nearest_floor_enable = 1; // Enable nearest floor calculation
