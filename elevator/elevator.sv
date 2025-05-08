@@ -3,8 +3,8 @@
 
 // Elevator module definition with parameterized timing constants
 module elevator #(
-    parameter COUNT_20S = 100,  // Parameter for 20-second counter
-    parameter COUNT_1S  = 1     // Parameter for 1-second counter
+    parameter COUNT_20S = 20000000000,  // Parameter for 20-second counter
+    parameter COUNT_1S  = 100000000     // Parameter for 1-second counter
 )(
     // Input signals
     input  logic        direction,     // Direction of request (1 for up, 0 for down)
