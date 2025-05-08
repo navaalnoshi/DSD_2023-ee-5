@@ -1,4 +1,4 @@
-// Timescale directive for simulation: 1ns time unit, 1ps precision
+what// Timescale directive for simulation: 1ns time unit, 1ps precision
 `timescale 1ns / 1ps
 
 // Elevator module definition with parameterized timing constants
@@ -146,15 +146,17 @@ always_comb begin
         else if (current_floor == 7 && call_down[current_floor - 3'd7]) nearest_floor = current_floor - 3'd7;
     end else begin
         // If no up or down direction, find the closest floor with a call
-        if (calls[0]) nearest_floor = 0;
-        else if (calls[1]) nearest_floor = 1;
-        else if (calls[2]) nearest_floor = 2;
-        else if (calls[3]) nearest_floor = 3;
-        else if (calls[4]) nearest_floor = 4;
-        else if (calls[5]) nearest_floor = 5;
-        else if (calls[6]) nearest_floor = 6;
-        else if (calls[7]) nearest_floor = 7;
-
+    if (calls[current_floor]) nearest_floor = current_floor;
+    else if ((current_floor < 7) && calls[current_floor + 1]) nearest_floor = current_floor + 1;
+    else if ((current_floor > 0) && calls[current_floor - 1]) nearest_floor = current_floor - 1;
+    else if ((current_floor < 6) && calls[current_floor + 2]) nearest_floor = current_floor + 2;
+    else if ((current_floor > 1) && calls[current_floor - 2]) nearest_floor = current_floor - 2;
+    else if ((current_floor < 5) && calls[current_floor + 3]) nearest_floor = current_floor + 3;
+    else if ((current_floor > 2) && calls[current_floor - 3]) nearest_floor = current_floor - 3;
+    else if ((current_floor < 4) && calls[current_floor + 4]) nearest_floor = current_floor + 4;
+    else if ((current_floor > 3) && calls[current_floor - 4]) nearest_floor = current_floor - 4;
+    else nearest_floor = current_floor; // no call found
+        
         if (nearest_floor > current_floor)
             up = 1;                  // Set up direction if nearest floor is above
         else if (nearest_floor < current_floor)
