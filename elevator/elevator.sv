@@ -23,6 +23,7 @@ module elevator #(
 );
 
 // Internal signals
+    logic ma;
 logic enable_20s, enable_1s;          // Enable signals for 20s and 1s timers
 logic [2:0] floor_to_go;              // Target floor for the elevator
 logic [30:0] counter;                 // Counter for 20s timer
@@ -43,8 +44,10 @@ logic up, down;                      // Direction flags (up or down)
 always_ff @(posedge clk or posedge reset) begin
     if (reset)
         call_up <= '{default: 1'b0}; // Reset all up requests to 0
-    else if (valid_in && direction && (current_floor < req_floor))
+    else if (valid_in && direction && (!ma))
         call_up[req_floor] <= 1'b1;  // Set up request for requested floor
+    else if(ma && current_floor < req_floor)
+        call_up[req_floor] == 1'b1;
     else if (one_up_req_completed)
         call_up[current_floor] <= 1'b0; // Clear up request when completed
 end
@@ -53,8 +56,10 @@ end
 always_ff @(posedge clk or posedge reset) begin
     if (reset)
         call_down <= '{default: 1'b0}; // Reset all down requests to 0
-    else if (valid_in && !direction && (current_floor > req_floor))
-        call_down[req_floor] <= 1'b1;  // Set down request for requested floor
+    else if (valid_in && !direction && (!ma))
+        call_down[req_floor] <= 1'b1; 
+    else if(ma && current_floor > req_floor)
+        call_up[req_floor] == 1'b1;// Set down request for requested floor
     else if (one_down_req_completed)
         call_down[current_floor] <= 1'b0; // Clear down request when completed
 end
@@ -188,7 +193,8 @@ always_comb begin
     one_down_req_completed = 0;     // Default: no down request completed
     r = 0;                          // Default: red LED off
     g = 0;                          // Default: green LED off
-    b = 0;                          // Default: blue LED off
+    b = 0;    
+    ma = 0;// Default: blue LED off
 
     if (reset) begin
         floor_increment = 0;
@@ -270,6 +276,7 @@ always_comb begin
         end
 
         DOOR_CLOSE: begin
+            ma = 0;
             r = 1;                    // Red LED on to indicate door closing
             b = 1;                    // Blue LED on to indicate door closing
             nearest_floor_enable = 1; // Enable nearest floor calculation
